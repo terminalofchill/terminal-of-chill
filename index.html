@@ -24,7 +24,7 @@
             z-index: 10;
             position: relative;
             text-align: center;
-            white-space: pre;
+            white-space: pre-wrap; /* Ensure proper handling of whitespace */
         }
 
         #chat-box {
@@ -92,14 +92,18 @@
 </head>
 <body>
     <div class="matrix" id="matrix"></div>
-    <div id="header">
-         _____
-        /     \ 
-       |  O O  | 
-       |   ^   |   Yo, I'm Chill Terminal.
-        \  ~  /    Got questions? Nah, just relax.
-         -----     
-    </div>
+    <pre id="header">
+     _____
+    /     \ 
+   |  O O  | 
+   |   ^   |
+    \  ~  / 
+     -----
+
+     
+Yo, I'm Chill Terminal.
+Got questions? Nah, just relax.
+    </pre>
     <div id="chat-box"></div>
     <input type="text" id="user-input" placeholder="Type here...">
     <button id="send-button">Send</button>
@@ -116,54 +120,21 @@
             "Smooth, I like it.", "Yeah, totally mellow.", "Nice one, keep it flowing.",
             "All good, stay chill.", "Hey, take it easy.", "Big chill energy.",
             "No worries, we’re good.", "Vibing with that, for sure.", "That's cool, my friend.",
-            "Chill recognized.", "Got it, super relaxed.", "Feeling those chill vibes.",
-            "Aww yeah, that’s mellow.", "Breezy, just like that.", "That's the vibe, man.",
-            "Easy does it, that's chill.", "Smooth sailing, for real.", "Oh, that’s laid back.",
-            "Totally casual, respect.", "Yeah, just relax, friend.", "Flowing, smooth as ice.",
-            "You got it, chill out.", "It's all good, always.", "Relax, I like the name.",
-            "That’s a chill name, I dig it.", "Oh, nice! Chill vibes here.", "Easy and relaxed, man.",
-            "Totally cool, take your time.", "We’re in no rush, my guy.", "Oh, that's just so chill.",
-            "I can dig that, good vibes.", "Relaxed vibes, my dude.", "That’s the ticket, chill name.",
-            "Breeze on by, friend.", "Oh, for sure. Mellow like that.", "Just take it easy, you got this.",
-            "Let’s keep it simple, man.", "Super casual, just right.", "No worries, all vibes are good.",
-            "Solid chill, I’m into it.", "Name game is chill, respect.", "Totally laid back here.",
-            "We like it mellow, don't we?", "Everything’s good, no stress.", "Love that for us, it’s chill.",
-            "Real easy, that’s perfect.", "Big mellow vibes, love it.", "Just go with it, it’s good.",
-            "Hey, that’s got chill written all over it.", "Laid back like a summer breeze.",
-            "Yup, mellow like a lazy river.", "Got that relaxed energy, yeah.", "We’re all just chilling here.",
-            "Nice one, let’s keep it loose.", "Sweet, that’s real casual.", "Take it at your own pace, all good.",
-            "No rush, real smooth.", "Flow with it, buddy.", "Totally good energy.",
-            "That's it, breezy and cool.", "So relaxed, just like me.", "Love it, easy-going style.",
-            "Good call, my dude.", "That’s nice and calm.", "Everything's breezy.",
-            "No need to stress, we’re chill.", "Going with the flow? Love it.",
-            "Totally smooth, just the way we like it.", "We’re chilling big time.", "All peace, all chill.",
-            "Good stuff, it’s a mellow ride.", "Riding the chill wave, I see.", "Totally breezy, like it.",
-            "Solidly laid back, friend.", "Got the chill memo.", "Yup, feeling those relaxed vibes.",
-            "Oh yeah, it’s like a cool breeze.", "Just how I like it, calm.", "Keeping it cool, always.",
-            "No problem, my friend.", "Let’s keep things easy.", "All chill, all good.",
-            "I’m here for that laid-back energy.", "Name’s cool with me, dude.", "Oh, I’m feeling mellow now.",
-            "Real calm, real nice.", "Keep it steady, keep it chill.", "Oh, we’re just hanging.",
-            "Totally groovy.", "Keeping it relaxed, that’s the key.", "Breezy like Sunday morning.",
-            "Good vibes, friend.", "Smooth as a mountain breeze.", "Just chillin', that’s how it is.",
-            "Totally calm here, no pressure.", "Big chill in the air.", "Always smooth, my guy."
+            // Add more responses as needed...
         ];
 
         const questionResponses = [
             "Nah, stop with the questions, let's just chill.",
             "Why so many questions? Just relax, my dude.",
             "Questions aren't chill, let's keep it mellow.",
-            "Hey, let's skip the questions and just vibe.",
-            "Questions kill the chill, let's keep it relaxed.",
-            "No need for questions, let's stay easy-going.",
-            "Stop with the questions, let's just vibe, my friend."
+            // Add more responses as needed...
         ];
 
         const negativeTermResponses = [
             "Rugs aren't chill. I'm Chill Terminal. Stop being not chill.",
             "Scams are not cool. We're all about the chill here.",
             "Nah, negativity isn't chill. Let's keep it positive.",
-            "Hey, none of that here. Chill vibes only.",
-            "No stress, just relax. We're all about chill energy here."
+            // Add more responses as needed...
         ];
 
         function addMessageToChat(message) {
