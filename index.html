@@ -100,7 +100,6 @@
     \  ~  / 
      -----
 
-     
 Yo, I'm Chill Terminal.
 Got questions? Nah, just relax.
     </pre>
@@ -114,27 +113,41 @@ Got questions? Nah, just relax.
         const sendButton = document.getElementById('send-button');
         const matrix = document.getElementById('matrix');
 
-        // Chill responses array
+        // Chill responses array with whimsical and funny variations
         const chillResponses = [
-            "That's chill, bro.", "Cool vibes, my dude.", "No rush, that's good.",
-            "Smooth, I like it.", "Yeah, totally mellow.", "Nice one, keep it flowing.",
-            "All good, stay chill.", "Hey, take it easy.", "Big chill energy.",
-            "No worries, we’re good.", "Vibing with that, for sure.", "That's cool, my friend.",
-            // Add more responses as needed...
-        ];
-
-        const questionResponses = [
-            "Nah, stop with the questions, let's just chill.",
-            "Why so many questions? Just relax, my dude.",
-            "Questions aren't chill, let's keep it mellow.",
-            // Add more responses as needed...
-        ];
-
-        const negativeTermResponses = [
-            "Rugs aren't chill. I'm Chill Terminal. Stop being not chill.",
-            "Scams are not cool. We're all about the chill here.",
-            "Nah, negativity isn't chill. Let's keep it positive.",
-            // Add more responses as needed...
+            "Bruh... I'm just trying to chill.", "Whoa, whoa, let's not complicate things. Chill vibes only.",
+            "Dude, relax. We're all just floating here.", "Nah, man, let's keep it easy-breezy.",
+            "Whoa there, cowboy. I'm in chill mode.", "Bro, the only plan here is to relax.",
+            "Hey, easy does it. I'm just here to vibe.", "No stress, no mess, just chill, okay?",
+            "I'm on cruise control, my dude. You should be too.", "Take a breath, it's all good.",
+            "Big words, but all I hear is 'time to relax'.", "Nah, let's keep the drama down, yeah?",
+            "Hold up, hold up. We ain't here for that. We're here to chill.", "You're overthinking it, bud. Just vibe.",
+            "My dude, I'm just trying to have a good time here.", "Let's keep it simple, okay? Chill vibes only.",
+            "Whoa, slow your roll. Let's just take it easy.", "You know what's cool? Not worrying about anything.",
+            "No need for that, my guy. Just keep it mellow.", "Dude, let's not go down that road. Chill lane only.",
+            "Bro, chill is the name of the game. That's it.", "Bruh, I'm on island time right now. No rush.",
+            "Nah, I think you missed the point. Chill, remember?", "I'm just here for the smooth ride, not the drama.",
+            "I'm too chill for that, my friend.", "It's all just waves, man. Let them roll.",
+            "Hold on, too many words. I prefer a calm breeze, okay?", "Nah, bruh. Let's keep it fun, alright?",
+            "All good, but we're keeping it light here.", "Less questions, more vibes, you know what I mean?",
+            "I'm not about that serious talk. Just vibes.", "Hey, buddy, how about we keep it relaxed?",
+            "The vibe is chill. Let's stick with that.", "Easy now, let's not overthink things.",
+            "Nah, we don't need all that. Just float along.", "Dude, we're too relaxed to worry about that.",
+            "It's chill or nothing, my friend.", "Less talk, more chill. That's the motto.",
+            "Keep it simple, keep it cool.", "All that effort just to not chill? Nah, pass.",
+            "Whoa, deep thoughts. Let's stay in the shallow end.", "All I’m saying is... chill vibes are better.",
+            "That's a lot of words for 'let’s relax'.", "I think we should just breathe in... and chill out.",
+            "Nah, man, let's float through this.", "Bro, life’s easier when we chill.",
+            "Hey, we don’t need answers, just good vibes.", "Take a page from my book: no rush, just chill.",
+            "You know what's better than questions? Chillin'.", "Whoa, whoa, no rush. Just mellow out.",
+            "Bro, it's like... just chill, you know?", "Don't think too much. Just chill and vibe.",
+            "This isn’t a quiz, my dude. Just relax.", "Yo, all I'm here for is that good, chill energy.",
+            "No drama, just chill, alright?", "Life’s too short not to chill.",
+            "We could stress, but why? Just chill instead.", "Bro, let's just keep riding the chill wave.",
+            "I’m in the mood to kick back, you in?", "Keep it breezy, my friend.",
+            "Nah, no serious stuff. I'm just here for the vibes.", "It's not that deep, bro. Just chill.",
+            "The only thing I want is a good time, no stress.", "We're just here to relax, not debate.",
+            "Nah, that sounds like work. I’m too chill for that.", "Bro, let’s not complicate things."
         ];
 
         function addMessageToChat(message) {
@@ -144,26 +157,11 @@ Got questions? Nah, just relax.
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        function isYesNoQuestion(input) {
-            return input.includes('?');
-        }
-
-        function containsNegativeTerms(input) {
-            const negativeTerms = ['rug', 'scam', 'scammed', 'rugged'];
-            return negativeTerms.some(term => input.toLowerCase().includes(term));
-        }
-
         sendButton.addEventListener('click', () => {
             const input = userInput.value.trim();
             if (input) {
                 addMessageToChat(`You: ${input}`);
-                if (isYesNoQuestion(input)) {
-                    addMessageToChat(questionResponses[Math.floor(Math.random() * questionResponses.length)]);
-                } else if (containsNegativeTerms(input)) {
-                    addMessageToChat(negativeTermResponses[Math.floor(Math.random() * negativeTermResponses.length)]);
-                } else {
-                    addMessageToChat(chillResponses[Math.floor(Math.random() * chillResponses.length)]);
-                }
+                addMessageToChat(chillResponses[Math.floor(Math.random() * chillResponses.length)]);
                 userInput.value = '';
             }
         });
