@@ -19,10 +19,12 @@
         }
 
         #header {
-            font-size: 24px;
+            font-size: 18px;
             margin-bottom: 20px;
             z-index: 10;
             position: relative;
+            text-align: center;
+            white-space: pre;
         }
 
         #chat-box {
@@ -90,7 +92,14 @@
 </head>
 <body>
     <div class="matrix" id="matrix"></div>
-    <div id="header">Tell Chill Terminal your name:</div>
+    <div id="header">
+         _____
+        /     \ 
+       |  O O  | 
+       |   ^   |   Yo, I'm Chill Terminal.
+        \  ~  /    Got questions? Nah, just relax.
+         -----     
+    </div>
     <div id="chat-box"></div>
     <input type="text" id="user-input" placeholder="Type here...">
     <button id="send-button">Send</button>
