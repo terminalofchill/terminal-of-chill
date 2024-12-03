@@ -88,6 +88,13 @@
             white-space: nowrap;
             font-size: 16px;
         }
+
+        .thinking-dots {
+            font-size: 16px;
+            color: #00FF00;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -100,18 +107,20 @@
     \  ~  / 
      -----
 
-welcome to terminal of chill.
-you must be here to chill.. or are you going to be a buzzkill with questions? 
+Welcome to terminal of chill.
+Got questions? Nah, just let me chillax please. 
     </pre>
     <div id="chat-box"></div>
     <input type="text" id="user-input" placeholder="Type here...">
     <button id="send-button">Send</button>
+    <div id="thinking-dots" class="thinking-dots" style="display: none;">...</div>
 
     <script>
         const chatBox = document.getElementById('chat-box');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
         const matrix = document.getElementById('matrix');
+        const thinkingDots = document.getElementById('thinking-dots');
 
         // Chill responses array with whimsical and funny variations
         const chillResponses = [
@@ -157,12 +166,25 @@ you must be here to chill.. or are you going to be a buzzkill with questions?
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
+        function showThinkingDots() {
+            thinkingDots.style.display = 'block';
+        }
+
+        function hideThinkingDots() {
+            thinkingDots.style.display = 'none';
+        }
+
         sendButton.addEventListener('click', () => {
             const input = userInput.value.trim();
             if (input) {
                 addMessageToChat(`You: ${input}`);
-                addMessageToChat(chillResponses[Math.floor(Math.random() * chillResponses.length)]);
                 userInput.value = '';
+                showThinkingDots();
+                const responseDelay = Math.random() * 1500 + 500; // Random delay between 0.5s and 2s
+                setTimeout(() => {
+                    hideThinkingDots();
+                    addMessageToChat(chillResponses[Math.floor(Math.random() * chillResponses.length)]);
+                }, responseDelay);
             }
         });
 
