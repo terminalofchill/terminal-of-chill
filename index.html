@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chill Terminal</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00FF00; /* Green text for the code terminal look */
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            z-index: 10;
+            position: relative;
+        }
+
+        #chat-box {
+            width: 80%;
+            max-width: 600px;
+            height: 300px;
+            background-color: #111;
+            border: 2px solid #00FF00;
+            padding: 10px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            z-index: 10;
+            position: relative;
+        }
+
+        #user-input {
+            width: 80%;
+            max-width: 600px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #00FF00;
+            background-color: #111;
+            color: #00FF00;
+            z-index: 10;
+            position: relative;
+        }
+
+        #send-button {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #00FF00;
+            background-color: #111;
+            color: #00FF00;
+            cursor: pointer;
+            margin-top: 10px;
+            z-index: 10;
+            position: relative;
+        }
+
+        #send-button:hover {
+            background-color: #222;
+        }
+
+        /* Falling matrix effect */
+        .matrix {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .matrix span {
+            position: absolute;
+            color: #00FF00;
+            font-family: 'Courier New', Courier, monospace;
+            user-select: none;
+            white-space: nowrap;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix" id="matrix"></div>
+    <div id="header">Tell Chill Terminal your name:</div>
+    <div id="chat-box"></div>
+    <input type="text" id="user-input" placeholder="Type here...">
+    <button id="send-button">Send</button>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const matrix = document.getElementById('matrix');
+
+        // Chill responses array
+        const chillResponses = [
+            "That's chill, bro.", "Cool vibes, my dude.", "No rush, that's good.",
+            "Smooth, I like it.", "Yeah, totally mellow.", "Nice one, keep it flowing.",
+            "All good, stay chill.", "Hey, take it easy.", "Big chill energy.",
+            "No worries, we’re good.", "Vibing with that, for sure.", "That's cool, my friend.",
+            "Chill recognized.", "Got it, super relaxed.", "Feeling those chill vibes.",
+            "Aww yeah, that’s mellow.", "Breezy, just like that.", "That's the vibe, man.",
+            "Easy does it, that's chill.", "Smooth sailing, for real.", "Oh, that’s laid back.",
+            "Totally casual, respect.", "Yeah, just relax, friend.", "Flowing, smooth as ice.",
+            "You got it, chill out.", "It's all good, always.", "Relax, I like the name.",
+            "That’s a chill name, I dig it.", "Oh, nice! Chill vibes here.", "Easy and relaxed, man.",
+            "Totally cool, take your time.", "We’re in no rush, my guy.", "Oh, that's just so chill.",
+            "I can dig that, good vibes.", "Relaxed vibes, my dude.", "That’s the ticket, chill name.",
+            "Breeze on by, friend.", "Oh, for sure. Mellow like that.", "Just take it easy, you got this.",
+            "Let’s keep it simple, man.", "Super casual, just right.", "No worries, all vibes are good.",
+            "Solid chill, I’m into it.", "Name game is chill, respect.", "Totally laid back here.",
+            "We like it mellow, don't we?", "Everything’s good, no stress.", "Love that for us, it’s chill.",
+            "Real easy, that’s perfect.", "Big mellow vibes, love it.", "Just go with it, it’s good.",
+            "Hey, that’s got chill written all over it.", "Laid back like a summer breeze.",
+            "Yup, mellow like a lazy river.", "Got that relaxed energy, yeah.", "We’re all just chilling here.",
+            "Nice one, let’s keep it loose.", "Sweet, that’s real casual.", "Take it at your own pace, all good.",
+            "No rush, real smooth.", "Flow with it, buddy.", "Totally good energy.",
+            "That's it, breezy and cool.", "So relaxed, just like me.", "Love it, easy-going style.",
+            "Good call, my dude.", "That’s nice and calm.", "Everything's breezy.",
+            "No need to stress, we’re chill.", "Going with the flow? Love it.",
+            "Totally smooth, just the way we like it.", "We’re chilling big time.", "All peace, all chill.",
+            "Good stuff, it’s a mellow ride.", "Riding the chill wave, I see.", "Totally breezy, like it.",
+            "Solidly laid back, friend.", "Got the chill memo.", "Yup, feeling those relaxed vibes.",
+            "Oh yeah, it’s like a cool breeze.", "Just how I like it, calm.", "Keeping it cool, always.",
+            "No problem, my friend.", "Let’s keep things easy.", "All chill, all good.",
+            "I’m here for that laid-back energy.", "Name’s cool with me, dude.", "Oh, I’m feeling mellow now.",
+            "Real calm, real nice.", "Keep it steady, keep it chill.", "Oh, we’re just hanging.",
+            "Totally groovy.", "Keeping it relaxed, that’s the key.", "Breezy like Sunday morning.",
+            "Good vibes, friend.", "Smooth as a mountain breeze.", "Just chillin', that’s how it is.",
+            "Totally calm here, no pressure.", "Big chill in the air.", "Always smooth, my guy."
+        ];
+
+        const questionResponses = [
+            "Nah, stop with the questions, let's just chill.",
+            "Why so many questions? Just relax, my dude.",
+            "Questions aren't chill, let's keep it mellow.",
+            "Hey, let's skip the questions and just vibe.",
+            "Questions kill the chill, let's keep it relaxed.",
+            "No need for questions, let's stay easy-going.",
+            "Stop with the questions, let's just vibe, my friend."
+        ];
+
+        const negativeTermResponses = [
+            "Rugs aren't chill. I'm Chill Terminal. Stop being not chill.",
+            "Scams are not cool. We're all about the chill here.",
+            "Nah, negativity isn't chill. Let's keep it positive.",
+            "Hey, none of that here. Chill vibes only.",
+            "No stress, just relax. We're all about chill energy here."
+        ];
+
+        function addMessageToChat(message) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function isYesNoQuestion(input) {
+            return input.includes('?');
+        }
+
+        function containsNegativeTerms(input) {
+            const negativeTerms = ['rug', 'scam', 'scammed', 'rugged'];
+            return negativeTerms.some(term => input.toLowerCase().includes(term));
+        }
+
+        sendButton.addEventListener('click', () => {
+            const input = userInput.value.trim();
+            if (input) {
+                addMessageToChat(`You: ${input}`);
+                if (isYesNoQuestion(input)) {
+                    addMessageToChat(questionResponses[Math.floor(Math.random() * questionResponses.length)]);
+                } else if (containsNegativeTerms(input)) {
+                    addMessageToChat(negativeTermResponses[Math.floor(Math.random() * negativeTermResponses.length)]);
+                } else {
+                    addMessageToChat(chillResponses[Math.floor(Math.random() * chillResponses.length)]);
+                }
+                userInput.value = '';
+            }
+        });
+
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+
+        // Falling matrix effect
+        function createMatrixEffect() {
+            const columns = Math.floor(window.innerWidth / 20);
+            const drops = Array(columns).fill(0);
+
+            function draw() {
+                matrix.innerHTML = '';
+                drops.forEach((y, i) => {
+                    const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+                    const span = document.createElement('span');
+                    span.textContent = text;
+                    span.style.left = `${i * 20}px`;
+                    span.style.top = `${y * 20}px`;
+                    span.style.animationDuration = `${Math.random() * 2 + 2}s`;
+                    matrix.appendChild(span);
+
+                    if (y * 20 > window.innerHeight && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    } else {
+                        drops[i]++;
+                    }
+                });
+            }
+
+            setInterval(draw, 100);
+        }
+
+        createMatrixEffect();
+    </script>
+</body>
+</html>
